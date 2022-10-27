@@ -1,0 +1,13 @@
+[package]
+name = "gql-ogm-tide"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
+members = ["crates/*", "app"]
+default-members = ["app"]
+
+[dependencies]
+
+ogm-handler = { path= "crates/ogm-handler" }
