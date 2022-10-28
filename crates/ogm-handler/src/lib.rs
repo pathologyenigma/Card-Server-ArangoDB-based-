@@ -1,6 +1,9 @@
+use graphql_client::GraphQLQuery;
+use serde::{
+    de::{self, DeserializeOwned, MapAccess, SeqAccess, Visitor},
+    Deserialize,
+};
 use std::marker::PhantomData;
-
-use serde::{de::{DeserializeOwned, Visitor, SeqAccess, self, MapAccess}, Deserialize};
 
 pub mod gql;
 #[derive(Debug)]
@@ -114,5 +117,25 @@ where
         }
         const FIELDS: &[&str] = &["data", "errors"];
         deserializer.deserialize_struct("Response", FIELDS, ResponseVisitor::<T>::default())
+    }
+}
+
+pub struct Handler;
+
+impl Handler {
+    pub async fn query<Req: GraphQLQuery, ReqVars, Resp>(
+        uri: &str,
+        vars: Req::Variables,
+    ) -> surf::Result<Response<Resp>>
+    where
+        Resp: DeserializeOwned,
+    {
+        surf::post(uri)
+            .body_json(&Req::build_query(vars))
+            .expect("failed to build query")
+            .await
+            .expect("failed to query")
+            .body_json()
+            .await
     }
 }

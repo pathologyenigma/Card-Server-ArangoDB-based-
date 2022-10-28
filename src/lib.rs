@@ -1,3 +1,3 @@
-pub mod ogm {
-    pub use ogm_handler::*;
-}
+pub mod query;
+pub mod mutation;
+pub mod subscription;

@@ -11,3 +11,6 @@ surf = "2.3.2"
 async-std = {version = "1.12.0", features = ["attributes"]}
 serde = { version = "1.0.147", features = ["derive"] }
 femme = "2.2.1"
+async-graphql = "4.0.16"
+async-graphql-tide = "4.0.16"
+prms3 = {path = ".."}

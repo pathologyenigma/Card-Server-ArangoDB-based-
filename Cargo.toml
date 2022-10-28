@@ -1,5 +1,5 @@
 [package]
-name = "gql-ogm-tide"
+name = "prms3"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,5 +9,6 @@ members = ["crates/*", "app"]
 default-members = ["app"]
 
 [dependencies]
-
+gql-types = {path = "crates/gql-types"}
 ogm-handler = { path= "crates/ogm-handler" }
+async-graphql = "4.0.16"
