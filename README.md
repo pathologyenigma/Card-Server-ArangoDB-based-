@@ -5,10 +5,11 @@
 *this project aim to testing these stacks for future production usage*
 
 ## Project Format
-**app** for the server start up and some config things
-the lib it self for queries mutations and subscriptions set up
-crates/ogm-handler for a gql-client to neo4j graphql ogm server
-crates/gql-types for types input-types and scalar-types and some serde things
+
+ - **app** for the server start up and some config things
+ - the lib it self for queries mutations and subscriptions set up
+ - crates/ogm-handler for a gql-client to neo4j graphql ogm server
+ - crates/gql-types for types input-types and scalar-types and some serde things
 
 ## Dependencies
 
