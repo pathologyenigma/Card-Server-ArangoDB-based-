@@ -52,10 +52,10 @@ pub mod common {
     use chrono::{prelude::*, LocalResult};
     use serde::{de::Visitor, Deserialize, Serialize};
 
-    /// A type representing Longitude
     pub struct Longitude(pub f64);
 
     #[Scalar]
+    /// A type representing Longitude
     impl ScalarType for Longitude {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::Number(value) = value {
@@ -73,9 +73,10 @@ pub mod common {
             Value::from(self.0)
         }
     }
-    /// a type representing a latitude
+    
     pub struct Latitude(pub f64);
     #[Scalar]
+    /// a type representing a latitude
     impl ScalarType for Latitude {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::Number(value) = value {
@@ -93,8 +94,7 @@ pub mod common {
             Value::from(self.0)
         }
     }
-    /// a type for year and month date values
-    /// format like Y-m
+    
     pub struct YearMonthBundle(pub i32, pub u8);
     impl FromStr for YearMonthBundle {
         type Err = String;
@@ -118,6 +118,8 @@ pub mod common {
         }
     }
     #[Scalar]
+    /// a type for year and month date values
+    /// format like Y-m
     impl ScalarType for YearMonthBundle {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -160,8 +162,7 @@ pub mod common {
             deserializer.deserialize_str(YMBVisitor)
         }
     }
-    /// a type for year month and day date values
-    /// format like Y-m-d
+    
     pub struct YearMonthDayBundle(pub i32, pub u8, pub u8);
     impl FromStr for YearMonthDayBundle {
         type Err = String;
@@ -186,6 +187,8 @@ pub mod common {
         }
     }
     #[Scalar]
+    /// a type for year month and day date values
+    /// format like Y-m-d
     impl ScalarType for YearMonthDayBundle {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -228,8 +231,7 @@ pub mod common {
             deserializer.deserialize_str(YMDBVisitor)
         }
     }
-    /// a full date time type
-    /// it is a UTC format one
+   
     pub struct DateTimeForGQL(pub DateTime<Utc>);
     impl FromStr for DateTimeForGQL {
         type Err = chrono::ParseError;
@@ -274,6 +276,8 @@ pub mod common {
         }
     }
     #[Scalar(name = "DateTime")]
+    /// a full date time type
+    /// it is a UTC format one
     impl ScalarType for DateTimeForGQL {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -288,7 +292,6 @@ pub mod common {
             Value::String(format!("{:?}", self.0))
         }
     }
-    /// a uuid type
     pub struct UUID(pub uuid::Uuid);
     impl FromStr for UUID {
         type Err = uuid::Error;
@@ -298,6 +301,7 @@ pub mod common {
         }
     }
     #[Scalar]
+    /// a uuid type
     impl ScalarType for UUID {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -343,9 +347,9 @@ pub mod common {
             deserializer.deserialize_str(UUIDVistor)
         }
     }
-    /// email type
     pub struct Email(pub String);
     #[Scalar]
+    /// email type
     impl ScalarType for Email {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -360,6 +364,7 @@ pub mod common {
     }
     pub struct URL(pub String);
     #[Scalar]
+    /// representing a URL string
     impl ScalarType for URL {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -376,6 +381,7 @@ pub mod common {
     }
     pub struct PhoneNumber(pub String);
     #[Scalar]
+    /// representing a phone number
     impl ScalarType for PhoneNumber {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -397,6 +403,7 @@ pub mod common {
     pub struct JWT(pub TokenData);
     const JWT_SECRET: &'static str = "asifEaifoa@";
     #[Scalar]
+    /// A representation for json web token
     impl ScalarType for JWT {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
@@ -415,23 +422,23 @@ pub mod common {
             Value::String(jwt_encode(JWT_SECRET, &self.0).expect("falied to parse data to jwt"))
         }
     }
-    /// a time range that only have year and month
     #[derive(InputObject, SimpleObject)]
     #[graphql(input_name = "YMOnlyDateRangeInput")]
+    /// a time range that only have year and month
     pub struct YMOnlyDateRange {
         pub start_at: YearMonthBundle,
         pub end_at: YearMonthBundle,
     }
-    /// a time range that only have year month and day
     #[derive(InputObject, SimpleObject)]
     #[graphql(input_name = "YMDOnlyDateRangeInput")]
+    /// a time range that only have year month and day
     pub struct YMDOnlyDateRange {
         pub start_at: YearMonthDayBundle,
         pub end_at: YearMonthDayBundle,
     }
-    /// a full datetime range
     #[derive(InputObject, SimpleObject)]
     #[graphql(input_name = "FullTimeRangeInput")]
+    /// a full datetime range
     pub struct FullTimeRange {
         pub start_at: DateTimeForGQL,
         pub end_at: DateTimeForGQL,
