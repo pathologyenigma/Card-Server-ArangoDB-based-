@@ -1,8 +1,5 @@
-﻿
-
-
-## Tide+GraphQL+Neo4j
-*this project aim to testing these stacks for future production usage*
+﻿## Card-server with Tide+GraphQL+Neo4j
+*graph database based type of card-server*
 
 ## Project Format
 
