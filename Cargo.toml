@@ -12,3 +12,5 @@ default-members = ["app"]
 gql-types = {path = "crates/gql-types"}
 ogm-handler = { path= "crates/ogm-handler" }
 async-graphql = "4.0.16"
+pbkdf2 = "0.11.0"
+rand_core = { version = "0.6", features = ["std"] }

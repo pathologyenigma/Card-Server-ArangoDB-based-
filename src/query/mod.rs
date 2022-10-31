@@ -1,6 +1,4 @@
 pub mod user;
-pub mod candidate;
-pub mod enterprise;
 use async_graphql::MergedObject;
 
 #[derive(MergedObject, Default)]

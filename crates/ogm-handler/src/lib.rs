@@ -123,12 +123,10 @@ where
 pub struct Handler;
 
 impl Handler {
-    pub async fn query<Req: GraphQLQuery, ReqVars, Resp>(
+    pub async fn query<Req: GraphQLQuery>(
         uri: &str,
         vars: Req::Variables,
-    ) -> surf::Result<Response<Resp>>
-    where
-        Resp: DeserializeOwned,
+    ) -> surf::Result<Response<Req::ResponseData>>
     {
         surf::post(uri)
             .body_json(&Req::build_query(vars))

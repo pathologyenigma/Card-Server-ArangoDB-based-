@@ -2,29 +2,30 @@ use async_graphql::{SimpleObject, InputObject};
 
 #[derive(SimpleObject)]
 pub struct User {
-    id: super::common::UUID,
-    username: String,
-    password: String,
-    email: Option<super::common::Email>,
-    phone_email: super::common::PhoneNumber,
-    image_url: Option<super::common::URL>,
-    register_at: super::common::DateTimeForGQL,
+    pub id: super::common::UUID,
+    pub username: String,
+    pub password: String,
+    pub email: super::common::Email,
+    pub phone_email: Option<super::common::PhoneNumber>,
+    pub image_url: Option<super::common::URL>,
+    pub register_at: super::common::DateTimeForGQL,
 }
 #[derive(InputObject)]
 pub struct RegisterInput {
     #[graphql(validator(min_length = 5, max_length = 10))]
-    username: String,
-    #[graphql(validator(min_length = 5, max_length = 5))]
-    verify_code: String,
-    #[graphql(validator(min_length = 1))]
-    phone_number: String,
+    pub username: String,
+    #[graphql(validator(min_length = 8, max_length = 16))]
+    pub password: String,
+    #[graphql(validator(email))]
+    pub email: String,
+    pub phone_number: Option<super::common::PhoneNumber>,
 }
 
 #[derive(InputObject)]
 pub struct LogInInput {
     #[graphql(validator(min_length = 1))]
-    account: String,
+    /// could be an email address or your username
+    pub account: String,
     #[graphql(validator(min_length = 1))]
-    verify: String,
-    is_verify_code: bool,
+    pub password: String,
 }

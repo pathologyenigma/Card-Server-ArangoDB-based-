@@ -1,5 +1,5 @@
-pub mod candidate;
-pub mod enterprise;
+pub mod card;
+pub mod collection;
 pub mod user;
 pub mod common {
     use std::str::FromStr;
@@ -52,7 +52,6 @@ pub mod common {
     use chrono::{prelude::*, LocalResult};
     use serde::{de::Visitor, Deserialize, Serialize};
 
-    use crate::candidate;
     /// A type representing Longitude
     pub struct Longitude(pub f64);
 
@@ -269,6 +268,11 @@ pub mod common {
             deserializer.deserialize_str(DateTimeForGQLVisitor)
         }
     }
+    impl DateTimeForGQL {
+        pub fn now() -> Self {
+            return Self(Utc::now());
+        }
+    }
     #[Scalar(name = "DateTime")]
     impl ScalarType for DateTimeForGQL {
         fn parse(value: Value) -> InputValueResult<Self> {
@@ -286,6 +290,13 @@ pub mod common {
     }
     /// a uuid type
     pub struct UUID(pub uuid::Uuid);
+    impl FromStr for UUID {
+        type Err = uuid::Error;
+
+        fn from_str(s: &str) -> Result<Self, Self::Err> {
+            Ok(Self(uuid::Uuid::from_str(s)?))
+        }
+    }
     #[Scalar]
     impl ScalarType for UUID {
         fn parse(value: Value) -> InputValueResult<Self> {
@@ -382,9 +393,8 @@ pub mod common {
     pub struct TokenData {
         pub id: UUID,
         pub username: String,
-        pub candidate: Option<candidate::Candidate>,
     }
-    pub struct JWT(TokenData);
+    pub struct JWT(pub TokenData);
     const JWT_SECRET: &'static str = "asifEaifoa@";
     #[Scalar]
     impl ScalarType for JWT {
