@@ -27,4 +27,5 @@
  - chorno: for date and time types
  - jsonwebtoken: serialize and deserialize jwt
  - regex: for regex checkers
+ - pbkdf2: for password hashing
 

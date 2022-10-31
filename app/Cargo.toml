@@ -13,4 +13,4 @@ serde = { version = "1.0.147", features = ["derive"] }
 femme = "2.2.1"
 async-graphql = "4.0.16"
 async-graphql-tide = "4.0.16"
-prms3 = {path = ".."}
+card-server = {path = ".."}

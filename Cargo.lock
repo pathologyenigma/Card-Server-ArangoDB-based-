@@ -97,8 +97,8 @@ dependencies = [
  "async-graphql",
  "async-graphql-tide",
  "async-std",
+ "card-server",
  "femme",
- "prms3",
  "serde",
  "surf",
  "tide",
@@ -581,6 +581,17 @@ name = "cache-padded"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c1db59621ec70f09c5e9b597b220c7a2b43611f4710dc03ceb8748637775692c"
+
+[[package]]
+name = "card-server"
+version = "0.1.0"
+dependencies = [
+ "async-graphql",
+ "gql-types",
+ "ogm-handler",
+ "pbkdf2",
+ "rand_core 0.6.4",
+]
 
 [[package]]
 name = "cc"
@@ -1754,17 +1765,6 @@ name = "ppv-lite86"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eb9f9e6e233e5c4a35559a617bf40a4ec447db2e84c20b55a6f83167b7e57872"
-
-[[package]]
-name = "prms3"
-version = "0.1.0"
-dependencies = [
- "async-graphql",
- "gql-types",
- "ogm-handler",
- "pbkdf2",
- "rand_core 0.6.4",
-]
 
 [[package]]
 name = "proc-macro-crate"

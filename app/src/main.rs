@@ -8,8 +8,8 @@ fn main() -> async_graphql::Result<()> {
 }
 async fn run() -> async_graphql::Result<()> {
     let schema = Schema::build(
-        prms3::query::QueryRoot::default(),
-        prms3::mutation::MutationRoot::default(),
+        card_server::query::QueryRoot::default(),
+        card_server::mutation::MutationRoot::default(),
         EmptySubscription,
     )
     .finish();
