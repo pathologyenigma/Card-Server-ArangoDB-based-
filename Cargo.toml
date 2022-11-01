@@ -14,3 +14,6 @@ ogm-handler = { path= "crates/ogm-handler" }
 async-graphql = "4.0.16"
 pbkdf2 = "0.11.0"
 rand_core = { version = "0.6", features = ["std"] }
+ron = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1.0.87"}

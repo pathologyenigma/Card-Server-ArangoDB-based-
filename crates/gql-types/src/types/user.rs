@@ -1,4 +1,5 @@
 use async_graphql::{SimpleObject, InputObject};
+use serde::Serialize;
 
 #[derive(SimpleObject)]
 pub struct User {
@@ -10,7 +11,7 @@ pub struct User {
     pub image_url: Option<super::common::URL>,
     pub register_at: super::common::DateTimeForGQL,
 }
-#[derive(InputObject)]
+#[derive(InputObject, Serialize)]
 pub struct RegisterInput {
     #[graphql(validator(min_length = 5, max_length = 10))]
     pub username: String,
@@ -21,7 +22,7 @@ pub struct RegisterInput {
     pub phone_number: Option<super::common::PhoneNumber>,
 }
 
-#[derive(InputObject)]
+#[derive(InputObject, Serialize)]
 pub struct LogInInput {
     #[graphql(validator(min_length = 1))]
     /// could be an email address or your username

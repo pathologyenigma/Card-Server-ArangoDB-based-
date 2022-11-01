@@ -1,0 +1,44 @@
+mutation CreateCollection($name: String!,
+ $is_public: Boolean!,
+ $cards: CollectionCardsFieldInput,
+ $owned_by: CollectionOwned_byFieldInput) {
+  createCollections(input: [{
+    name: $name,
+    is_public: $is_public,
+    cards: $cards,
+    owned_by: $owned_by
+  }]) {
+    info {
+      nodesCreated
+    }
+    collections {
+      id
+    }
+  }
+}
+mutation RegisterNewUser(
+  $username: String!
+  $email: String!
+  $password: String!
+  $register_at: String!
+  $phone_number: String
+) {
+  createUsers(
+    input: {
+      username: $username
+      password: $password
+      email: $email
+      register_at: $register_at
+      phone_number: $phone_number
+    }
+  ) {
+    info {
+      nodesCreated
+    }
+    users {
+      id
+    }
+  }
+}
+query GetUserByEmailOrUsername($account: String) {
+  users(where: {OR: [{email: $account},{username: $account}]}) {    id    username    password  }}

@@ -75,4 +75,14 @@ pub mod utils {
     pub fn new_conflict_error(msg: String) -> Error {
         Error::new("409 Conflict").extend_with(|_, e|e.set("err_msg", msg))
     }
+    pub trait OgmTypeToGQLType {
+        type OutType;
+        type ExtractArgs;
+        fn cast_to_gql_type(self, extra_args: Self::ExtractArgs) -> Self::OutType;
+    }
+    pub trait GQLTypeToOgmType {
+        type OutType;
+        type ExtractArgs;
+        fn cast_to_ogm_type(self, extra_args: Self::ExtractArgs) -> Self::OutType;
+    }
 }

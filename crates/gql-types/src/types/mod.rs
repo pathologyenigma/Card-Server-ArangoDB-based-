@@ -379,6 +379,37 @@ pub mod common {
             Value::String(self.0.to_string())
         }
     }
+    impl Serialize for URL {
+        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            serializer.serialize_str(&self.0.to_string())
+        }
+    }
+    impl<'de> Deserialize<'de> for URL {
+        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            struct URLVistor;
+            impl<'de> Visitor<'de> for URLVistor {
+                type Value = URL;
+
+                fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                    formatter.write_str("uuid")
+                }
+
+                fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+                where
+                    E: serde::de::Error,
+                {
+                    Ok(URL(v.to_owned()))
+                }
+            }
+            deserializer.deserialize_str(URLVistor)
+        }
+    }
     pub struct PhoneNumber(pub String);
     #[Scalar]
     /// representing a phone number
@@ -393,6 +424,37 @@ pub mod common {
         }
         fn to_value(&self) -> Value {
             Value::String(self.0.to_string())
+        }
+    }
+    impl Serialize for PhoneNumber {
+        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where
+            S: serde::Serializer,
+        {
+            serializer.serialize_str(&self.0.to_string())
+        }
+    }
+    impl<'de> Deserialize<'de> for PhoneNumber {
+        fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where
+            D: serde::Deserializer<'de>,
+        {
+            struct PhoneNumberVistor;
+            impl<'de> Visitor<'de> for PhoneNumberVistor {
+                type Value = PhoneNumber;
+
+                fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                    formatter.write_str("uuid")
+                }
+
+                fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+                where
+                    E: serde::de::Error,
+                {
+                    Ok(PhoneNumber(v.to_owned()))
+                }
+            }
+            deserializer.deserialize_str(PhoneNumberVistor)
         }
     }
     #[derive(Serialize, Deserialize)]

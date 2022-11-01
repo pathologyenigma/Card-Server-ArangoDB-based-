@@ -4,6 +4,7 @@
 //! also it could have effects following some set-up rule(WIP)
 
 use async_graphql::{SimpleObject, OneofObject, InputObject};
+use serde::{Serialize, Deserialize};
 #[derive(SimpleObject)]
 /// the card type definition
 /// every card is unique by the card id
@@ -68,7 +69,7 @@ pub struct CardUpdateInput {
     pub duplicate_from: Option<super::common::UUID>,
     pub is_public: Option<bool>,
 }
-#[derive(OneofObject)]
+#[derive(OneofObject, Serialize, Deserialize)]
 pub enum CardViewInput {
     StaticImage(super::common::URL),
     /// not implemented yet
