@@ -1,0 +1,18 @@
+[package]
+name = "card-server-aragog"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[workspace]
+members = ["crates/*", "app"]
+default-members = ["app"]
+
+[dependencies]
+ogm = {path = "crates/ogm"}
+gql-types = {path = "crates/gql-types"}
+async-graphql = "4.0.16"
+aragog = {git = "https://gitlab.com/qonfucius/aragog"}
+pbkdf2 = "0.11.0"
+rand_core = { version = "0.6", features = ["std"] }
+tracing = "0.1.37"

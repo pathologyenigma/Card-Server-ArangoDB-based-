@@ -1,0 +1,17 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-graphql-axum = "4.0.16"
+async-graphql = "4.0.16"
+tracing = "0.1.37"
+axum = "0.5.17"
+card-server-aragog = {path = ".."}
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1", features = ["full"] }
+tracing-subscriber = "0.3.15"
+dotenv = "0.15.0"
