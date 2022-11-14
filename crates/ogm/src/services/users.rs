@@ -1,5 +1,3 @@
-
-
 use aragog::{
     query::{Comparison, Filter},
     DatabaseConnection, Record,
@@ -8,8 +6,6 @@ use aragog::{
 use crate::models::prelude::User;
 
 use super::Error;
-
-
 
 pub async fn get_user_by_username_or_email(
     account: &String,
@@ -22,40 +18,27 @@ pub async fn get_user_by_username_or_email(
         )
         .call::<DatabaseConnection, User>(db)
         .await
-        .map_err(|err| match err {
-            aragog::Error::ArangoError(err) => match err.arango_error {
-                aragog::error::ArangoError::ArangoDataSourceNotFound => {
-                    return Error::Internal("Table Not exist".to_owned());
-                }
-                _ => return Error::Internal(format!("{}", err)),
-            },
-            _ => {
-                return Error::Internal(format!("{}", err));
-            }
-        })?;
-    let mut users = res
-        .0
-        .into_iter()
-        .map(|data| (data.key().clone(), data.record))
-        .take(1)
-        .collect::<Vec<(String, User)>>();
-    if users.len() < 1 {
-        return Err(Error::NotFound("account".to_owned(), account.clone()));
+        .map_err(|err| Error::from_aragog_error(true, err))?;
+
+    if res.len() > 1 {
+        return Err(Error::Internal(
+            "found multiple users with the same username, this should not be happen".to_owned(),
+        ));
     }
-    Ok(users.pop().unwrap())
+    let user = res
+        .first_record()
+        .map(|data| (data.id().clone(), data.record));
+    match user {
+        Some(user) => return Ok(user),
+        None => {
+            return Err(Error::NotFound("account".to_owned(), account.clone()));
+        }
+    }
 }
 
 pub async fn new_user(user: User, db: &DatabaseConnection) -> Result<String, Error> {
-    let res = User::create(user, db).await.map_err(|err| match err {
-        aragog::Error::Conflict(err) => match err.arango_error {
-            aragog::error::ArangoError::ArangoUniqueConstraintViolated => {
-                return Error::Conflict(err.message)
-            }
-            _ => return Error::Internal(err.message),
-        },
-        _ => {
-            return Error::Internal(format!("{}", err));
-        }
-    })?;
-    Ok(res.key().clone())
+    let res = User::create(user, db)
+        .await
+        .map_err(|err| Error::from_aragog_error(false, err))?;
+    Ok(res.id().clone())
 }

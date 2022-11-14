@@ -19,3 +19,8 @@ pub async fn set_up_database() -> Result<DatabaseConnection, Error> {
     .build()
     .await
 }
+
+pub mod prelude {
+    pub use super::models::prelude::*;
+    pub use super::services::prelude::*;
+}

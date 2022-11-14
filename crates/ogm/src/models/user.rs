@@ -7,4 +7,5 @@ pub struct User {
     pub password: String,
     pub email: String,
     pub registered_at: u64,
+    pub collections: Vec<String>,
 }

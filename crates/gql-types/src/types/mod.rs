@@ -299,22 +299,13 @@ pub mod common {
         }
     }
     #[derive(Debug)]
-    pub struct ID(pub u64);
-    impl FromStr for ID {
-        type Err = String;
-
-        fn from_str(s: &str) -> Result<Self, Self::Err> {
-            Ok(Self(u64::from_str(s).unwrap()))
-        }
-    }
+    pub struct ID(pub String);
     #[Scalar]
     /// id generated from arangodb
     impl ScalarType for ID {
         fn parse(value: Value) -> InputValueResult<Self> {
             if let Value::String(value) = value {
-                if let Ok(uuid) = u64::from_str(&value) {
-                    return Ok(Self(uuid));
-                }
+                return Ok(Self(value));
             }
             return Err(InputValueError::custom("not a valid uuid"));
         }
@@ -348,7 +339,7 @@ pub mod common {
                 where
                     E: serde::de::Error,
                 {
-                    Ok(ID(u64::from_str(v).expect("Invalid ID")))
+                    Ok(ID(v.to_owned()))
                 }
             }
             deserializer.deserialize_str(IDVistor)
