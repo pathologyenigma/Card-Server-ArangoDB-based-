@@ -1,0 +1,59 @@
+# 
+# This schema file is auto generated and synchronized with the database.
+# Editing it will have no effect.
+# 
+---
+version: 1668220378206
+collections:
+  - name: User
+    is_edge_collection: false
+  - name: Collection
+    is_edge_collection: false
+  - name: Card
+    is_edge_collection: false
+indexes:
+  - name: unique_username
+    collection: User
+    fields:
+      - username
+    settings:
+      type: persistent
+      unique: true
+      sparse: false
+      deduplicate: false
+  - name: unique_email
+    collection: User
+    fields:
+      - email
+    settings:
+      type: persistent
+      unique: true
+      sparse: false
+      deduplicate: false
+  - name: one_user_one_collection_name
+    collection: Collection
+    fields:
+      - name
+      - created_by
+    settings:
+      type: persistent
+      unique: true
+      sparse: false
+      deduplicate: false
+  - name: search_collection_by_name
+    collection: Collection
+    fields:
+      - name
+    settings:
+      type: fulltext
+      minLength: 2
+  - name: one_user_one_card_name
+    collection: Card
+    fields:
+      - name
+      - created_by
+    settings:
+      type: persistent
+      unique: true
+      sparse: false
+      deduplicate: false

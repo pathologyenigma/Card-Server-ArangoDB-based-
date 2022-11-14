@@ -28,21 +28,21 @@ impl UserMutationRoot {
             Ok(id) => {
                 info!("{}", id);
                 return Ok(gql_types::common::JWT(Some(gql_types::common::TokenData {
-                    id: gql_types::common::ID::from_str(&id.split("/").last().unwrap()).unwrap(),
+                    id: gql_types::common::ID::from_str(&id).unwrap(),
                     username: input.username.clone(),
                     exp: crate::utils::default_exp_for_token(),
                 })));
             }
             Err(err) => match err {
-                ogm::services::prelude::Error::Internal(msg) => {
+                ogm::services::prelude::OGMSeviceError::Internal(msg) => {
                     return Err(crate::utils::new_internal_server_error(msg))
                 }
-                ogm::services::prelude::Error::NotFound(_, _) => {
+                ogm::services::prelude::OGMSeviceError::NotFound(_, _) => {
                     return Err(crate::utils::new_internal_server_error(
                         "unknown error".to_owned(),
                     ))
                 }
-                ogm::services::prelude::Error::Conflict(msg) => {
+                ogm::services::prelude::OGMSeviceError::Conflict(msg) => {
                     return Err(crate::utils::new_conflict_error(msg))
                 }
             },

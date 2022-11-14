@@ -1,4 +1,4 @@
-use std::fmt;
+
 
 use aragog::{
     query::{Comparison, Filter},
@@ -7,29 +7,9 @@ use aragog::{
 
 use crate::models::prelude::User;
 
-#[derive(Debug)]
-pub enum Error {
-    Internal(String),
-    NotFound(String, String),
-    Conflict(String),
-}
+use super::Error;
 
-impl fmt::Display for Error {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let msg = match self {
-            Error::Internal(msg) => {
-                format!("{}", msg)
-            }
-            Error::NotFound(field_name, field_value) => {
-                format!("{} {} is not found", field_name, field_value)
-            }
-            Error::Conflict(msg) => {
-                format!("{}", msg)
-            }
-        };
-        write!(f, "{}", msg)
-    }
-}
+
 
 pub async fn get_user_by_username_or_email(
     account: &String,
@@ -56,7 +36,7 @@ pub async fn get_user_by_username_or_email(
     let mut users = res
         .0
         .into_iter()
-        .map(|data| (data.id().clone(), data.record))
+        .map(|data| (data.key().clone(), data.record))
         .take(1)
         .collect::<Vec<(String, User)>>();
     if users.len() < 1 {

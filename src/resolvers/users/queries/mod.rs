@@ -25,7 +25,7 @@ impl UserQueryRoot {
             Ok((id, user)) => {
                 if let Ok(_) = crate::utils::verify(&input.password, &user.password) {
                     return Ok(gql_types::common::JWT(Some(gql_types::common::TokenData {
-                        id: gql_types::common::ID::from_str(&id.split("/").last().unwrap())
+                        id: gql_types::common::ID::from_str(&id)
                             .unwrap(),
                         username: user.username.clone(),
                         exp: crate::utils::default_exp_for_token()
@@ -37,13 +37,13 @@ impl UserQueryRoot {
                 }
             }
             Err(err) => match err {
-                ogm::services::prelude::Error::Internal(msg) => {
+                ogm::services::prelude::OGMSeviceError::Internal(msg) => {
                     return Err(crate::utils::new_internal_server_error(msg))
                 },
-                ogm::services::prelude::Error::NotFound(_, _) => {
+                ogm::services::prelude::OGMSeviceError::NotFound(_, _) => {
                     return Err(crate::utils::new_not_found_error(format!("{}", err)))
                 },
-                ogm::services::prelude::Error::Conflict(_) => {
+                ogm::services::prelude::OGMSeviceError::Conflict(_) => {
                     return Err(crate::utils::new_conflict_error("unkonwn error".to_owned()))
                 },
             },
