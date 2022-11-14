@@ -57,5 +57,5 @@ pub async fn new_user(user: User, db: &DatabaseConnection) -> Result<String, Err
             return Error::Internal(format!("{}", err));
         }
     })?;
-    Ok(res.id().clone())
+    Ok(res.key().clone())
 }
